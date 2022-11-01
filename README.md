@@ -8,3 +8,4 @@ Api to DigimonApp.
 ## Technologies
 Project is created with:
 * Nodejs
+* MongoDB
