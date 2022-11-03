@@ -81,7 +81,7 @@ const getDigimonsByLevel = async (req, res) => {
     const offset = (page - 1) * limit
 
     const digimons = await Digimon.find(queryMongo)
-        .select("_id name images fields levels types attributes")
+        .select("_id name slug images fields levels types attributes")
         .populate({ path: "levels.levelID", select: "_id name" })
         .populate({ path: "types.typeID", select: "_id name" })
         .populate({ path: "attributes.attributeID", select: "_id name" })
