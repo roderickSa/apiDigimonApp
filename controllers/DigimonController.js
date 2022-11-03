@@ -59,6 +59,30 @@ const getOneDigimon = async (req, res) => {
     res.json(digimon)
 }
 
+const getOneDigimonBySlug = async (req, res) => {
+    const { slug } = req.params
+
+    await dbConnection()
+
+    const digimon = await Digimon.findOne({ slug })
+        .populate({ path: "levels.levelID", select: "_id name" })
+        .populate({ path: "types.typeID", select: "_id name" })
+        .populate({ path: "attributes.attributeID", select: "_id name" })
+        .populate({ path: "fields.fieldID", select: "_id name images" })
+        .populate({ path: "skills.skillID", select: "_id name" })
+        .populate({
+            path: "priorEvolutions.digimonID",
+            select: "_id name images",
+        })
+        .populate({
+            path: "nextEvolutions.digimonID",
+            select: "_id name images",
+        })
+
+    // await disconnect()
+    res.json(digimon)
+}
+
 const getDigimonsByLevel = async (req, res) => {
     const { id } = req.params
     let { page = 0, limit = 12 } = req.query
@@ -71,7 +95,7 @@ const getDigimonsByLevel = async (req, res) => {
     const queryMongo = {
         "levels.levelID": Types.ObjectId(id),
     }
-    
+
     await dbConnection()
 
     const totalDigimons = await Digimon.countDocuments(queryMongo)
@@ -93,4 +117,9 @@ const getDigimonsByLevel = async (req, res) => {
     res.json({ digimons, totalPages })
 }
 
-module.exports = { getDigimons, getOneDigimon, getDigimonsByLevel }
+module.exports = {
+    getDigimons,
+    getOneDigimon,
+    getOneDigimonBySlug,
+    getDigimonsByLevel,
+}

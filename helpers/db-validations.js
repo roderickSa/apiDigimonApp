@@ -11,6 +11,15 @@ const existsDigimonId = async (id) => {
     return true
 }
 
+const existsDigimonSlug = async (slug) => {
+    await dbConnection()
+    const digimon = await Digimon.findOne({ slug })
+    if (!digimon) {
+        throw new Error("Digimon slug not exists")
+    }
+    return true
+}
+
 const existsLevelId = async (id) => {
     await dbConnection()
     const digimon = await Level.findById(id)
@@ -20,4 +29,4 @@ const existsLevelId = async (id) => {
     return true
 }
 
-module.exports = { existsDigimonId, existsLevelId }
+module.exports = { existsDigimonId, existsDigimonSlug, existsLevelId }
