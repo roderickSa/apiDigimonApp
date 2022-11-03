@@ -2,6 +2,7 @@ const { Schema, model, models } = require("mongoose")
 
 const digimonSchema = new Schema({
     name: { type: String },
+    slug: { type: String },
     xAntibody: {
         type: Boolean,
         default: false,
