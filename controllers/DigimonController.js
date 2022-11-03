@@ -48,11 +48,11 @@ const getOneDigimon = async (req, res) => {
         .populate({ path: "skills.skillID", select: "_id name" })
         .populate({
             path: "priorEvolutions.digimonID",
-            select: "_id name images",
+            select: "_id name slug images",
         })
         .populate({
             path: "nextEvolutions.digimonID",
-            select: "_id name images",
+            select: "_id name slug images",
         })
 
     // await disconnect()
@@ -72,11 +72,11 @@ const getOneDigimonBySlug = async (req, res) => {
         .populate({ path: "skills.skillID", select: "_id name" })
         .populate({
             path: "priorEvolutions.digimonID",
-            select: "_id name images",
+            select: "_id name slug images",
         })
         .populate({
             path: "nextEvolutions.digimonID",
-            select: "_id name images",
+            select: "_id name slug images",
         })
 
     // await disconnect()
