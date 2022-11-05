@@ -117,9 +117,27 @@ const getDigimonsByLevel = async (req, res) => {
     res.json({ digimons, totalPages })
 }
 
+const getDigimonsByName = async (req, res) => {
+    await dbConnection()
+    const { termino } = req.query
+
+    const regex = new RegExp(termino, "i")
+    const digimons = await Digimon.find({ name: regex })
+        .select("_id name slug images fields levels types attributes")
+        .populate({ path: "levels.levelID", select: "_id name" })
+        .populate({ path: "types.typeID", select: "_id name" })
+        .populate({ path: "attributes.attributeID", select: "_id name" })
+        .populate({ path: "fields.fieldID", select: "_id name images" })
+        .limit(Number(20))
+
+    // await disconnect()
+    res.json(digimons)
+}
+
 module.exports = {
     getDigimons,
     getOneDigimon,
     getOneDigimonBySlug,
     getDigimonsByLevel,
+    getDigimonsByName,
 }

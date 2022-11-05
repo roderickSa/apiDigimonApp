@@ -1,10 +1,11 @@
 const { Router } = require("express")
-const { param } = require("express-validator")
+const { param, query } = require("express-validator")
 const {
     getDigimons,
     getOneDigimon,
     getDigimonsByLevel,
     getOneDigimonBySlug,
+    getDigimonsByName,
 } = require("../controllers/DigimonController")
 const {
     existsDigimonId,
@@ -35,6 +36,15 @@ router.get(
         validarCampos,
     ],
     getOneDigimonBySlug
+)
+
+router.get(
+    "/buscar/nombre",
+    [
+        query("termino", "No se encontro termino a buscar").not().isEmpty(),
+        validarCampos,
+    ],
+    getDigimonsByName
 )
 
 router.get(
